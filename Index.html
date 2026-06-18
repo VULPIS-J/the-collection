@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<!-- Copyright © 2026 [Vulpis J]. All rights reserved. This code may not be reproduced, modified, or distributed without permission from Vulpis J. If there is anyone that has the rights for parts of code or the code as a whole, they will be listed on  -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Collection — V. & K.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,400&family=Barlow:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090f;
+    --surface: #0f0f1a;
+    --border: rgba(120, 100, 200, 0.15);
+    --accent: #7c5cbf;
+    --accent2: #c49a3c;
+    --text: #e8e4f0;
+    --text-dim: #9990b0;
+    --glow: rgba(124, 92, 191, 0.3);
+    --cream: #f5f0e8;
+    --ink: #1c1810;
+    --ink-soft: #3a342a;
+    --gold: #b8922a;
+    --gold-light: #d4aa4a;
+    --green-deep: #2a4a2e;
+    --red-blood: #7a1515;
+    --red-royal: #9a2020;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 60% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%; left: -10%;
+    width: 60%; height: 60%;
+    background: radial-gradient(ellipse, rgba(80,40,160,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── MENU BAR ── */
+  .menu-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: flex-end;
+    background: rgba(9,9,15,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(196,154,60,0.1);
+    padding: 10px 20px;
+    transition: opacity 0.3s;
+  }
+  .menu-bar.hidden { opacity: 0; pointer-events: none; }
+  .menu-btn {
+    background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; gap: 5px; padding: 8px;
+  }
+  .menu-btn span {
+    display: block; width: 24px; height: 2px;
+    background: rgba(196,154,60,0.7); border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .menu-btn:hover span { background: var(--accent2); }
+  .menu-dropdown {
+    position: fixed; top: 52px; right: 24px; z-index: 200;
+    background: rgba(15,15,26,0.97);
+    border: 1px solid rgba(196,154,60,0.25);
+    border-radius: 4px; padding: 20px 28px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    opacity: 0; pointer-events: none;
+    transform: translateY(-8px);
+    transition: all 0.25s ease;
+    min-width: 260px;
+  }
+  .menu-dropdown.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+  .menu-dropdown p {
+    font-family: 'Crimson Pro', serif; font-size: 1rem;
+    color: var(--text-dim); font-style: italic; line-height: 1.6;
+  }
+  .menu-dropdown a { color: var(--accent2); text-decoration: none; font-style: normal; }
+  .menu-dropdown a:hover { text-decoration: underline; }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    text-align: center; padding: 80px 24px 60px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(40,20,80,0.4) 0%, transparent 100%);
+  }
+  .eyebrow {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.65rem;
+    letter-spacing: 0.4em; color: var(--accent2); text-transform: uppercase;
+    margin-bottom: 20px; opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 700; line-height: 1.1; letter-spacing: 0.02em;
+    background: linear-gradient(135deg, #e8e4f0 30%, #c49a3c 60%, #a07cc5 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 16px; opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 32px auto 0; max-width: 300px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+  }
+  .divider-gem {
+    width: 8px; height: 8px; background: var(--accent2);
+    transform: rotate(45deg); box-shadow: 0 0 10px var(--accent2);
+  }
+
+  /* ── STORY LIST ── */
+  main {
+    position: relative; z-index: 10;
+    max-width: 860px; margin: 0 auto; padding: 60px 24px 100px;
+  }
+  .section-label {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.6rem;
+    letter-spacing: 0.5em; color: var(--accent); text-transform: uppercase;
+    margin-bottom: 40px; text-align: center; opacity: 0.7;
+  }
+  .chapters { display: flex; flex-direction: column; gap: 2px; }
+  .chapter-item {
+    position: relative; display: flex; align-items: stretch;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden; cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0; transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+  .chapter-item::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--glow) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .chapter-item:hover {
+    border-color: rgba(120,100,200,0.4);
+    transform: translateX(6px);
+    box-shadow: -4px 0 20px rgba(124,92,191,0.2), inset 0 0 40px rgba(124,92,191,0.05);
+  }
+  .chapter-item:hover::before { opacity: 1; }
+  .chapter-num {
+    display: flex; align-items: center; justify-content: center;
+    width: 80px; min-height: 60px; flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    font-family: 'Cinzel Decorative', serif; font-size: 1.1rem;
+    color: var(--accent2); background: rgba(196,154,60,0.04);
+    position: relative; z-index: 1;
+  }
+  .chapter-body {
+    flex: 1; padding: 16px 28px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .chapter-title {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.95rem;
+    font-weight: 400; color: var(--text); letter-spacing: 0.03em;
+    transition: color 0.3s;
+  }
+  .chapter-item:hover .chapter-title { color: #fff; }
+  .chapter-arrow {
+    margin-left: auto; display: flex; align-items: center;
+    padding: 0 24px; color: var(--accent);
+    opacity: 0; transition: opacity 0.3s, transform 0.3s;
+    font-size: 1.2rem; position: relative; z-index: 1;
+  }
+  .chapter-item:hover .chapter-arrow { opacity: 1; transform: translateX(4px); }
+
+  /* ── STORY MODAL (novel chapter list) ── */
+  .story-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(5,5,12,0.97); z-index: 100;
+    overflow-y: auto; backdrop-filter: blur(4px);
+  }
+  .story-overlay.open { display: block; }
+  .story-topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(9,9,15,0.95); border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  .story-label {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.6rem;
+    letter-spacing: 0.35em; color: var(--accent2); text-transform: uppercase;
+  }
+  .modal-close {
+    background: none; border: 1px solid var(--border);
+    color: var(--text-dim); padding: 7px 18px; border-radius: 2px;
+    cursor: pointer; font-family: 'Cinzel Decorative', serif;
+    font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { border-color: var(--accent); color: var(--text); }
+  .story-body {
+    max-width: 860px; margin: 60px auto 100px; padding: 0 24px;
+    animation: fadeUp 0.4s ease;
+  }
+  .story-title-block {
+    text-align: center; margin-bottom: 52px; padding-bottom: 40px;
+    border-bottom: 1px solid rgba(196,154,60,0.15);
+  }
+  .story-eyebrow {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.6rem;
+    letter-spacing: 0.4em; color: var(--accent2); text-transform: uppercase;
+    margin-bottom: 16px; opacity: 0.7;
+  }
+  .story-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.15;
+    background: linear-gradient(135deg, #e8e4f0 30%, #c49a3c 60%, #a07cc5 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 10px;
+  }
+  .story-world {
+    font-family: 'Crimson Pro', serif; font-style: italic;
+    font-size: 0.95rem; color: var(--text-dim); opacity: 0.7;
+  }
+  .story-section-label {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.55rem;
+    letter-spacing: 0.5em; color: var(--accent); text-transform: uppercase;
+    margin-bottom: 28px; text-align: center; opacity: 0.7;
+  }
+
+  /* chapter items inside story modal */
+  .story-chapter-item {
+    position: relative; display: flex; align-items: stretch;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden; cursor: pointer;
+    transition: all 0.3s ease; margin-bottom: 2px;
+  }
+  .story-chapter-item::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--glow) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .story-chapter-item:hover {
+    border-color: rgba(120,100,200,0.4); transform: translateX(6px);
+    box-shadow: -4px 0 20px rgba(124,92,191,0.2);
+  }
+  .story-chapter-item:hover::before { opacity: 1; }
+  .story-chapter-item.read .chapter-num { color: var(--accent2); opacity: 1; }
+  .story-chapter-item.read .chapter-title { color: var(--accent2); }
+  .read-dot {
+    width: 6px; height: 6px; background: var(--accent2);
+    border-radius: 50%; box-shadow: 0 0 6px var(--accent2);
+    flex-shrink: 0; display: none;
+  }
+  .story-chapter-item.read .read-dot { display: none; }
+  .story-chapter-item:hover .chapter-arrow { opacity: 1; transform: translateX(4px); }
+
+  /* ── CHAPTER READER MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(5,5,12,0.97); z-index: 150;
+    overflow-y: auto; backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: block; }
+  .modal-topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(9,9,15,0.95); border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  .modal-chapter-label {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.6rem;
+    letter-spacing: 0.35em; color: var(--accent2); text-transform: uppercase;
+  }
+  .chapter-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin: 40px 0 0; padding: 28px 0 0;
+  }
+  .nav-btn {
+    display: flex; align-items: center; gap: 10px;
+    background: none; border: 1px solid rgba(184,146,42,0.3);
+    color: var(--ink-soft); padding: 10px 22px; border-radius: 2px;
+    cursor: pointer; font-family: 'IM Fell English', serif;
+    font-size: 13px; letter-spacing: 0.08em; transition: all 0.25s;
+  }
+  .nav-btn:hover { border-color: var(--gold); color: var(--ink); background: rgba(184,146,42,0.06); }
+  .nav-btn.hidden { opacity: 0; pointer-events: none; }
+  .nav-btn-arrow { font-size: 16px; color: var(--gold); }
+  .modal-body {
+    max-width: 800px; margin: 48px auto 80px; padding: 0 24px;
+    animation: fadeUp 0.4s ease;
+  }
+
+  /* ── PARCHMENT PAGE ── */
+  .page { background: var(--cream); box-shadow: 0 0 0 1px rgba(184,146,42,0.25), 0 0 80px rgba(0,0,0,0.9); }
+  .page-border { height: 5px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); }
+  .page-inner {
+    padding: 64px 72px 88px;
+    background: repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(184,146,42,0.045) 31px, rgba(184,146,42,0.045) 32px), var(--cream);
+    position: relative;
+  }
+  .corner { position: absolute; width: 52px; height: 52px; opacity: 0.4; }
+  .corner svg { width: 100%; height: 100%; }
+  .corner-tl { top: 10px; left: 10px; }
+  .corner-tr { top: 10px; right: 10px; transform: scaleX(-1); }
+  .corner-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+  .corner-br { bottom: 10px; right: 10px; transform: scale(-1,-1); }
+  .title-block { text-align: center; margin-bottom: 64px; padding-bottom: 48px; border-bottom: 1px solid rgba(184,146,42,0.2); }
+  .series-label { font-family: 'IM Fell English', serif; font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold); opacity: 0.75; margin-bottom: 28px; }
+  .novel-title { font-family: 'IM Fell English', serif; font-size: 44px; color: var(--ink); line-height: 1.1; font-weight: 400; letter-spacing: 0.02em; }
+  .ornament { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 20px 0; color: var(--gold); font-size: 16px; opacity: 0.55; }
+  .ornament::before, .ornament::after { content: ''; flex: 1; max-width: 140px; height: 1px; }
+  .ornament::before { background: linear-gradient(90deg, transparent, var(--gold)); }
+  .ornament::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+  .world-stamp { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--ink-soft); opacity: 0.6; margin-top: 6px; }
+  .chapter-header { text-align: center; margin-bottom: 52px; }
+  .chapter-label { font-family: 'IM Fell English', serif; font-size: 11px; letter-spacing: 0.24em; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 10px; opacity: 0.7; }
+  .chapter-title-page { font-family: 'IM Fell English', serif; font-size: 34px; color: var(--ink); line-height: 1.2; font-weight: 400; }
+  .prose { font-size: 17.5px; line-height: 1.95; color: var(--ink-soft); font-weight: 300; text-align: justify; hyphens: auto; }
+  .prose p { margin-bottom: 1.45em; }
+  .prose p + p { text-indent: 2.2em; }
+  .prose p.no-indent { text-indent: 0 !important; }
+  .drop-cap::first-letter { font-family: 'IM Fell English', serif; font-size: 76px; line-height: 0.72; float: left; margin-right: 9px; margin-top: 12px; color: var(--green-deep); text-shadow: 1px 2px 0 rgba(42,74,46,0.12); }
+  .prose em { font-style: italic; color: var(--ink); font-weight: 400; }
+  .thought { font-style: italic; color: var(--green-deep); font-weight: 400; }
+  .sense { font-style: italic; color: #5a4a2a; font-weight: 400; }
+  .red { color: var(--red-blood); font-weight: 400; }
+  .royal { color: var(--red-royal); font-weight: 400; font-style: italic; }
+  .scene-break { text-align: center; margin: 38px 0; color: var(--gold); font-size: 18px; letter-spacing: 0.55em; opacity: 0.5; }
+  .scene-note { font-family: 'IM Fell English', serif; font-style: italic; font-size: 12.5px; color: var(--gold); letter-spacing: 0.09em; margin-bottom: 30px; display: block; opacity: 0.8; }
+  .chapter-end { text-align: center; margin-top: 60px; padding-top: 34px; }
+  .end-ornament { font-size: 18px; color: var(--gold); opacity: 0.5; letter-spacing: 0.55em; }
+  .end-label { font-family: 'IM Fell English', serif; font-size: 20px; letter-spacing: 0.32em; color: var(--ink-soft); text-transform: uppercase; margin-top: 14px; opacity: 0.75; }
+  .ch-footer { font-family: 'IM Fell English', serif; font-size: 10.5px; letter-spacing: 0.22em; color: rgba(100,80,40,0.45); text-align: center; padding: 18px 0 10px; text-transform: uppercase; }
+
+  /* ── FOOTER ── */
+  footer { position: relative; z-index: 10; text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-dim); font-style: italic; letter-spacing: 0.05em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 640px) {
+    .page-inner { padding: 44px 26px 64px; }
+    .novel-title { font-size: 32px; }
+    .chapter-title-page { font-size: 24px; }
+    .prose { font-size: 15.5px; }
+    .drop-cap::first-letter { font-size: 58px; }
+  }
+  /* ── DOAS CHAPTER READER ── */
+  #modal-doas { background-color:#0d0d0f; color:#d8d4cc; font-size:1.1rem; line-height:1.8; overflow-x:hidden; }
+  #modal-doas.open::before { content:''; position:fixed; top:-10%; right:-5%; width:55vw; height:130vh; background:linear-gradient(160deg,#7a241a 0%,transparent 60%); opacity:0.12; pointer-events:none; z-index:0; transform:skewX(-8deg); }
+  #modal-doas .doas-title-block { margin-bottom:3.5rem; padding-bottom:2rem; border-bottom:3px solid #c0392b; }
+  #modal-doas .doas-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.35em; text-transform:uppercase; color:#c0392b; margin-bottom:0.8rem; }
+  #modal-doas .doas-h1 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(3rem,9vw,5.5rem); font-weight:900; line-height:0.95; color:#ffffff; text-transform:uppercase; letter-spacing:-0.01em; margin-bottom:1rem; word-break:break-word; }
+  #modal-doas .doas-subtitle { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:1rem; font-weight:400; color:#5a5860; letter-spacing:0.05em; }
+  #modal-doas .doas-drop-cap::first-letter { font-family:'Barlow Condensed',sans-serif; float:left; font-size:5rem; font-weight:900; line-height:0.75; margin:0.06em 0.1em 0 0; color:#c0392b; text-transform:uppercase; }
+  #modal-doas p { margin-bottom:1.4em; }
+  #modal-doas .doas-divider { display:flex; align-items:center; gap:1rem; margin:2.8rem 0; color:#c0392b; user-select:none; }
+  #modal-doas .doas-divider::before, #modal-doas .doas-divider::after { content:''; flex:1; height:1px; background:#2a2830; }
+  #modal-doas .doas-divider span { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; }
+  #modal-doas .doas-finis { margin-top:3.5rem; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.35em; text-transform:uppercase; color:#c0392b; }
+  #modal-doas em { font-style:italic; color:#ffffff; }
+
+</style>
+</head>
+<body>
+
+<div class="menu-bar" id="menu-bar">
+  <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<div class="menu-dropdown" id="menu-dropdown">
+  <p>These are the only official websites:</p>
+  <p><a href="https://vulpisj.netlify.app" target="_blank">vulpisj.netlify.app</a></p>
+  <p><a href="https://tapas.io" target="_blank">tapas.io</a> (Suspended)</p>
+  <hr style="border:none;border-top:1px solid rgba(196,154,60,0.3);margin:14px 0;">
+  <p>Our Tapas was suspended for some reasons. Will be soon back.</p>
+  <hr style="border:none;border-top:1px solid rgba(196,154,60,0.3);margin:14px 0;">
+  <p>For feedback, reach out to:<br><a href="mailto:vulpisj@proton.me">vulpisj@proton.me</a></p>
+</div>
+
+<header>
+  <p class="eyebrow">V. & K. Presents</p>
+  <h1>The Collection</h1>
+  <div class="divider"><div class="divider-gem"></div></div>
+</header>
+
+<main>
+  <p class="section-label">Novels</p>
+  <div class="chapters">
+
+    <div class="chapter-item" onclick="openStory('doas')">
+      <div class="chapter-body">
+        <div class="chapter-title">Diaries of a Student</div>
+      </div>
+      <div class="chapter-arrow">→</div>
+    </div>
+
+    <div class="chapter-item" onclick="openStory('taja')">
+      <div class="chapter-body">
+        <div class="chapter-title">The Adventures of James Alexander</div>
+      </div>
+      <div class="chapter-arrow">→</div>
+    </div>
+
+    <div class="chapter-item" onclick="openStory('tpoo')">
+      <div class="chapter-body">
+        <div class="chapter-title">The Princess of Oblivion</div>
+      </div>
+      <div class="chapter-arrow">→</div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  Stories by V. & K. Patterson &nbsp;|&nbsp; ALL RIGHTS RESERVED
+</footer>
+
+<!-- ══ STORY MODAL: The Princess of Oblivion ══ -->
+<div class="story-overlay" id="story-tpoo">
+  <div class="story-topbar">
+    <span class="story-label">TPOO</span>
+    <button class="modal-close" onclick="closeStory('tpoo')">✕ &nbsp; Close</button>
+  </div>
+  <div class="story-body">
+    <div class="story-title-block">
+      <div class="story-eyebrow">Vulpis J. Presents</div>
+      <div class="story-name">The Princess of Oblivion</div>
+    </div>
+    <p class="story-section-label">Chapters</p>
+    <div id="tpoo-chapters">
+
+      <div class="story-chapter-item" onclick="openChapter('tpoo', 0)">
+        <div class="chapter-num">I</div>
+        <div class="chapter-body" style="display:flex;align-items:center;gap:12px;">
+          <div class="chapter-title">-False Chapter-</div>
+          <span class="read-dot" title="Read"></span>
+        </div>
+        <div class="chapter-arrow">→</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ STORY MODAL: The Adventures of James Alexander ══ -->
+<div class="story-overlay" id="story-taja">
+  <div class="story-topbar">
+    <span class="story-label">TAOJA</span>
+    <button class="modal-close" onclick="closeStory('taja')">✕ &nbsp; Close</button>
+  </div>
+  <div class="story-body">
+    <div class="story-title-block">
+      <div class="story-eyebrow">Kiricko J. Presents</div>
+      <div class="story-name">The Adventures of James Alexander</div>
+    </div>
+    <p class="story-section-label">Adventures</p>
+    <div id="taja-chapters">
+      <!-- chapters will be added here -->
+    </div>
+  </div>
+</div>
+
+<!-- ══ STORY MODAL: Diaries of a Student ══ -->
+<div class="story-overlay" id="story-doas">
+  <div class="story-topbar">
+    <span class="story-label">DOAS</span>
+    <button class="modal-close" onclick="closeStory('doas')">✕ &nbsp; Close</button>
+  </div>
+  <div class="story-body">
+    <div class="story-title-block">
+      <div class="story-eyebrow">Kiricko J. Presents</div>
+      <div class="story-name">Diaries of a Student</div>
+    </div>
+    <p class="story-section-label">Stories</p>
+    <div id="doas-chapters">
+
+      <div class="story-chapter-item" onclick="openChapter('doas', 0)">
+        <div class="chapter-num">I</div>
+        <div class="chapter-body" style="display:flex;align-items:center;gap:12px;">
+          <div class="chapter-title">Chaos</div>
+          <span class="read-dot" title="Read"></span>
+        </div>
+        <div class="chapter-arrow">→</div>
+      </div>
+
+      <div class="story-chapter-item" onclick="openChapter('doas', 1)">
+        <div class="chapter-num">II</div>
+        <div class="chapter-body" style="display:flex;align-items:center;gap:12px;">
+          <div class="chapter-title">Goalkeeper</div>
+          <span class="read-dot" title="Read"></span>
+        </div>
+        <div class="chapter-arrow">→</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHAPTER READER MODAL ══ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-topbar">
+    <span class="modal-chapter-label" id="modal-label">Chapter One</span>
+    <button class="modal-close" onclick="closeChapter()">✕ &nbsp; Close</button>
+  </div>
+  <div class="modal-body">
+    <div class="page">
+      <div class="page-border"></div>
+      <div class="page-inner">
+
+        <div class="corner corner-tl"><svg viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#b8922a" stroke-width="1.1" fill="none"/><path d="M4 26 Q15 15 26 4" stroke="#b8922a" stroke-width="0.65" fill="none" opacity="0.45"/><circle cx="4" cy="4" r="2.5" fill="#b8922a" opacity="0.65"/><circle cx="4" cy="26" r="1.1" fill="#b8922a" opacity="0.35"/><circle cx="26" cy="4" r="1.1" fill="#b8922a" opacity="0.35"/></svg></div>
+        <div class="corner corner-tr"><svg viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#b8922a" stroke-width="1.1" fill="none"/><circle cx="4" cy="4" r="2.5" fill="#b8922a" opacity="0.65"/></svg></div>
+        <div class="corner corner-bl"><svg viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#b8922a" stroke-width="1.1" fill="none"/><circle cx="4" cy="4" r="2.5" fill="#b8922a" opacity="0.65"/></svg></div>
+        <div class="corner corner-br"><svg viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#b8922a" stroke-width="1.1" fill="none"/><circle cx="4" cy="4" r="2.5" fill="#b8922a" opacity="0.65"/></svg></div>
+
+        <div class="title-block">
+          <div class="ornament">✦</div>
+          <div class="novel-title">The Princess<br>of Oblivion</div>
+          <div class="ornament">✦</div>
+          <div class="world-stamp">By Vulpis J. Patterson</div>
+        </div>
+
+        <div class="chapter-header">
+          <div class="chapter-label">Chapter One</div>
+          <div class="chapter-title-page">The Librarian</div>
+          <div class="ornament">✦</div>
+        </div>
+
+        <div class="prose">
+
+          <p class="drop-cap no-indent">The princess walked down the portraits corridor. She passed her father's, mother's, brother's, and herself's to finally stop at a portrait covered with red silk. It was her stepmom's, the late empress, a sharp woman that died before giving birth to a prince. She pulled the silk away, and stood in silence staring at the woman she only heard of, never met.</p>
+
+          <p>While absorbed into staring at the portrait, a hand lands softly on her shoulder, startling her and making the silk slip through her suddenly loosened grip, falling to the ground.</p>
+
+          <p><em>"Ahem,"</em> The old butler cleared his throat. <em>"His Majesty, the king, will not be pleased when he sees—"</em></p>
+
+          <p><em>"You surely won't sell me, would you, Alfred?"</em></p>
+
+          <p><em>"I cannot ignore His Majesty if he asks."</em></p>
+
+          <p><em>"Just blame the wind!"</em></p>
+
+          <p><em>"But, if I may, Your Highness. Why do you stare into the late empress' portrait every morning?"</em></p>
+
+          <p><em>"You should ask why the hell does father cover her portrait!"</em> She yells, then calms. <em>"I just wish I met her or her son if he was born."</em></p>
+
+          <p><em>"Why not just ask the queen? She was a concubine when the late empress was still alive."</em></p>
+
+          <p><em>"Mother told me a lot about her, but I think mother is exaggerating in how wise and kind she was."</em></p>
+
+          <p><em>"So, you do not even believe Her Majesty's words."</em> He sighed. <em>"Then, why not search for records and diaries in The Royal Library?"</em></p>
+
+          <p>Princess Elisabeth beamed at this suggestion, she never thought of searching in the library, with the main cause being that she doesn't like books nor the smell of them.</p>
+
+          <p>Alfred closed his eyes for a moment proudly after seeing her beeming. <em>"You are welcome, Your Highn—"</em></p>
+
+          <p><em>"YOUR HIGHNESS?!"</em> She was already out of sight when he opened his eyes. He sighed and muttered something about the princess being still young.</p>
+
+          <p>Princess Elisabeth ran through corridors reaching The Royal Library's grand doors. She opened them, but to her surprise, there wasn't the smell of old books, nor was there the tiniest bit of dust on the books. That was quite unexpected for her since she knows that no maids are allowed inside. The library had strict restrictions for entering. Only Royalty and librarians are allowed inside, although even royalty must have their crests on them before entering, otherwise, the magical barrier on the library will through them out. Almost the same goes for nobles who want to enter. They must go in alongside someone who has a crest, and that person must allow them to enter.</p>
+
+          <p><span class="thought">Could it be that The Librarian cleaned all of the library herself?</span> She thought. <span class="thought">She must have used magic for that.</span></p>
+
+          <p>Elisabeth looked at the huge library and the million books and scripts it contains. She sighed. But then, her eyes caught a girl of her age, 16 years old, sitting on a large window and reading a book. Elisabeth instantly recognized that person, from her white hair, red eyes, pale white skin and the very small smile that never leaves her face. Which, actually, irritates the princess. But she had no other way to find books now.</p>
+
+          <p>Elisabeth walked up to The Librarian and thought about the fact that she does not even know her real name. <em>"Hey, Libranian... Do you know where I can find books about the late empress?"</em></p>
+
+          <p>The Librarian answered without changing her expression a bit. <em>"You can find it in here."</em></p>
+
+          <p>Elisabeth instantly remembered the way The Librarian always answers questions, which, always, enraged her. <em>"I already know that much, you useless libranian."</em></p>
+
+          <p><em>"Then just go to Royal Family section."</em></p>
+
+          <p>Elisabeth swiftly snitched the book from The Librarian's lap. <em>"And where the hell is that section?!"</em></p>
+
+          <p><em>"In this library."</em> The Librarian said while trying to take the book from Elisabeth, who is holding the book as high as she could since she was a bit taller than The Librarian, while the smile didn't leave her face.</p>
+
+          <p>Finally, Elisabeth threw the book on the ground with an annoyed expression. <em>"Fine! I will search for it!"</em></p>
+
+          <p>The princess moved through the unlabeled sections of The Royal Library, until, at last, finding a section that contains books about the royal family's history.</p>
+
+          <div class="scene-break">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+        </div>
+        </div>
+
+      </div><!-- /page-inner -->
+    </div><!-- /page -->
+    <div class="ch-footer">The Princess of Oblivion &nbsp;·&nbsp; Chapter I</div>
+  </div><!-- /modal-body -->
+</div><!-- /modal-overlay -->
+
+<script>
+// ── MENU ──
+function toggleMenu() {
+  document.getElementById('menu-dropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const btn = document.querySelector('.menu-btn');
+  const dropdown = document.getElementById('menu-dropdown');
+  if (btn && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+// ── STORY LAYER ──
+function openStory(id) {
+  document.getElementById('story-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('menu-bar').classList.add('hidden');
+  document.getElementById('menu-dropdown').classList.remove('open');
+  history.pushState({ overlay: 'story', id: id }, '');
+}
+function closeStory(id) {
+  document.getElementById('story-' + id).classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('menu-bar').classList.remove('hidden');
+}
+
+// ── CHAPTER LAYER ──
+const STORIES = {
+  tpoo: {
+    chapters: [
+      { label: 'Chapter One' }
+    ]
+  },
+  taja: {
+    chapters: []
+  },
+  doas: {
+    chapters: [
+      { label: 'Chaos' },
+      { label: 'Goalkeeper' }
+    ]
+  }
+};
+
+let activeStory = null;
+let currentChapter = 0;
+
+function updateNavButtons() {
+  const total = STORIES[activeStory].chapters.length;
+  const hasPrev = currentChapter > 0;
+  const hasNext = currentChapter < total - 1;
+  ['topbar-prev', 'bottom-prev'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', !hasPrev);
+  });
+  ['topbar-next', 'bottom-next'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', !hasNext);
+  });
+  const label = document.getElementById(activeStory === 'doas' ? 'modal-doas-label' : 'modal-label');
+  if (label) label.textContent = STORIES[activeStory].chapters[currentChapter].label;
+}
+
+function markRead(storyId, index) {
+  const items = document.querySelectorAll('#' + storyId + '-chapters .story-chapter-item');
+  if (items[index]) items[index].classList.add('read');
+  try {
+    const key = 'read_' + storyId;
+    const read = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!read.includes(index)) { read.push(index); localStorage.setItem(key, JSON.stringify(read)); }
+  } catch(e) {}
+}
+
+function restoreRead() {
+  Object.keys(STORIES).forEach(storyId => {
+    try {
+      const read = JSON.parse(localStorage.getItem('read_' + storyId) || '[]');
+      read.forEach(i => markRead(storyId, i));
+    } catch(e) {}
+  });
+}
+
+function scrollKey(storyId, index) {
+  return 'scroll_' + storyId + '_' + index;
+}
+
+function activeModalId() {
+  return activeStory === 'doas' ? 'modal-doas' : 'modal';
+}
+
+function saveScrollPosition() {
+  if (activeStory === null) return;
+  try {
+    const pos = document.getElementById(activeModalId()).scrollTop;
+    localStorage.setItem(scrollKey(activeStory, currentChapter), pos);
+  } catch(e) {}
+}
+
+function restoreScrollPosition(storyId, index) {
+  try {
+    const pos = parseInt(localStorage.getItem(scrollKey(storyId, index)) || '0', 10);
+    document.getElementById(storyId === 'doas' ? 'modal-doas' : 'modal').scrollTop = pos;
+  } catch(e) {
+    document.getElementById(storyId === 'doas' ? 'modal-doas' : 'modal').scrollTop = 0;
+  }
+}
+
+function showDoasChapter(index) {
+  document.querySelectorAll('[id^="doas-chapter-"]').forEach(el => el.style.display = 'none');
+  const el = document.getElementById('doas-chapter-' + index);
+  if (el) el.style.display = '';
+  const sub = document.getElementById('doas-chapter-subtitle');
+  if (sub) sub.textContent = STORIES.doas.chapters[index].label;
+}
+
+function openChapter(storyId, index) {
+  activeStory = storyId;
+  currentChapter = index;
+  document.getElementById(activeModalId()).classList.add('open');
+  if (storyId === 'doas') showDoasChapter(index);
+  restoreScrollPosition(storyId, index);
+  updateNavButtons();
+  markRead(storyId, index);
+  history.pushState({ overlay: 'chapter', storyId: storyId, index: index }, '');
+}
+
+function goChapter(direction) {
+  const next = currentChapter + direction;
+  const total = STORIES[activeStory].chapters.length;
+  if (next >= 0 && next < total) {
+    saveScrollPosition();
+    currentChapter = next;
+    if (activeStory === 'doas') showDoasChapter(next);
+    restoreScrollPosition(activeStory, next);
+    updateNavButtons();
+  }
+}
+
+function closeChapter() {
+  saveScrollPosition();
+  document.getElementById(activeModalId()).classList.remove('open');
+}
+
+window.addEventListener('popstate', function(e) {
+  // Chapter is open — close it
+  const doasOpen = document.getElementById('modal-doas').classList.contains('open');
+  const mainOpen = document.getElementById('modal').classList.contains('open');
+  if (doasOpen || mainOpen) {
+    saveScrollPosition();
+    document.getElementById('modal-doas').classList.remove('open');
+    document.getElementById('modal').classList.remove('open');
+    history.pushState({ overlay: 'base' }, '');
+    return;
+  }
+  // A story list is open — close it
+  const openStoryEl = document.querySelector('.story-overlay.open');
+  if (openStoryEl) {
+    openStoryEl.classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('menu-bar').classList.remove('hidden');
+    history.pushState({ overlay: 'base' }, '');
+    return;
+  }
+  // Nothing open — re-push to prevent leaving the page
+  history.pushState({ overlay: 'base' }, '');
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const doasOpen = document.getElementById('modal-doas').classList.contains('open');
+    const mainOpen = document.getElementById('modal').classList.contains('open');
+    if (doasOpen || mainOpen) {
+      closeChapter();
+    } else {
+      ['tpoo', 'taja', 'doas'].forEach(id => closeStory(id));
+      document.getElementById('menu-bar').classList.remove('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+});
+
+restoreRead();
+history.replaceState({ overlay: 'base' }, '');
+</script>
+<!-- ══ CHAPTER READER MODAL: DOAS ══ -->
+<div class="modal-overlay" id="modal-doas" style="font-family:'Barlow',sans-serif;">
+  <div class="modal-topbar">
+    <span class="modal-chapter-label" id="modal-doas-label">Chaos</span>
+    <button class="modal-close" onclick="closeChapter()">✕ &nbsp; Close</button>
+  </div>
+  <div style="position:relative;z-index:1;max-width:680px;margin:0 auto;padding:4rem 2rem 7rem;">
+
+    <div class="doas-title-block">
+      <p class="doas-eyebrow">A Short Story</p>
+      <div class="doas-h1">Diaries of a Student</div>
+      <p class="doas-subtitle" id="doas-chapter-subtitle">Chaos</p>
+    </div>
+
+    <div id="doas-chapter-0">
+      <p class="doas-drop-cap">The class is in chaos, there is no teacher, a heavy knock on the wall from the neibouring class echoed through the classroom, everyone skipped a beat and stopped for a moment, after the echo disappeared, the students laughed awkardly and returned to their 'absolute craziness' state. Half of the lesson already passed, the students became confident that the teacher will not come. The boy wanted to go crazy like them and try being part of the chaos at least once, but he was lucky. Before he went crazy, the teacher entered, the students ran to their seats, speed of light, but the teacher already saw everything through the camera. He scolded the students and praised the boy who thanked god for what happened and promised himself to never go crazy and to always behave.</p>
+      <div class="doas-divider"><span>II</span></div>
+      <div class="doas-finis">— End —</div>
+    </div>
+
+    <div id="doas-chapter-1" style="display:none;">
+      <p class="doas-drop-cap"> He jumped at the ball, serving as a goalkeeper, the boy successfully blocked the ball, but he did not catch it. The boy fell, because of the jump, on the ground. Unfortunately for him, the ball fell into the other team's hands, or <em>'maybe'</em> feet, and was instantly kicked at the goal. The keeper instinctively jumped to save his team from a disaster that was bound to happen if he would not jump. He miraculously reached the ball, touched it with the tips of his fingers, just enough to change its curve a bit, so it did not go in the goal. But the boy was knocked on his head and became very dizzy to the point where his eyes stopped eying what was around him and he did not understand what was happening. After he regained his full consciousness, he sat alone and thought about the last save. He understood that there are things he should protect with his life, and things he should not use nor spend a single penny to protect. And something like a game with nothing to get or lose is not worth hurting himself. He learned his lesson the hard way. </p>
+      <div class="doas-divider"><span>II</span></div>
+      <div class="doas-finis">— End —</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
