@@ -1,1 +1,1 @@
-Check it out on: vulpis-j.github.io/The-Collection/
+Check it out on: vulpis-j.github.io/the-collection/
